@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06080d">
+  <meta name="description" content="Local lighting control for the Acer Aspire Lite AL15G-52 RGB keyboard.">
+  <title>Lumen RGB Studio — ALG RGB</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <div class="ambient-grid" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="Lumen RGB Studio home">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H14l3 4h-2.4l-3-4h-3.2l-3 4H4.6l3-4H5.5A1.5 1.5 0 0 1 4 14.5v-9Zm2 .5v8h12V6H6Z"/>
+            <path d="M8 8h2v2H8V8Zm3 0h2v2h-2V8Zm3 0h2v2h-2V8ZM8 11h2v2H8v-2Zm3 0h2v2h-2v-2Zm3 0h2v2h-2v-2Z"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>Lumen</strong>
+          <small>ALG RGB Studio</small>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Sections">
+        <a class="nav-link active" href="#overview">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v4h-7V4ZM4 13h7v7H4v-7Zm9-3h7v10h-7V10Z"/></svg>
+          <span>Overview</span>
+        </a>
+        <a class="nav-link" href="#lighting">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a7 7 0 0 0-4 12.74V18a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 3Zm-2 17h4v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1Z"/></svg>
+          <span>Lighting</span>
+        </a>
+        <a class="nav-link" href="#effects">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l1-8H13Z"/></svg>
+          <span>Effects</span>
+        </a>
+        <a class="nav-link" href="#perkey">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4V4Zm2 3v2h3V7H6Zm5 0v2h2V7h-2Zm4 0v2h3V7h-3ZM6 11v2h2v-2H6Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2ZM6 15v2h5v-2H6Zm7 0v2h5v-2h-5Z"/></svg>
+          <span>Per-key Lab</span>
+        </a>
+        <a class="nav-link" href="#system">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm9 5v-2l-2.2-.7a7 7 0 0 0-.7-1.7l1.1-2-1.4-1.4-2 1.1a7 7 0 0 0-1.7-.7L13 3h-2l-.7 2.2a7 7 0 0 0-1.7.7l-2-1.1-1.4 1.4 1.1 2a7 7 0 0 0-.7 1.7L3 11v2l2.2.7c.17.6.4 1.17.7 1.7l-1.1 2 1.4 1.4 2-1.1c.53.3 1.1.53 1.7.7L11 21h2l.7-2.2a7 7 0 0 0 1.7-.7l2 1.1 1.4-1.4-1.1-2c.3-.53.53-1.1.7-1.7L21 13Z"/></svg>
+          <span>System</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-card">
+        <span class="status-dot" id="side-status-dot"></span>
+        <div>
+          <strong id="side-status">Connecting…</strong>
+          <span id="side-device">/dev/alg_rgb</span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <span>v1.0.0</span>
+        <span>Local control</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>Workspace</span>
+          <span class="sep">/</span>
+          <strong>Keyboard</strong>
+        </div>
+        <div class="topbar-actions">
+          <span class="pill" id="conn-pill"><span class="dot"></span><span id="conn-pill-text">Checking</span></span>
+          <button class="btn ghost small" id="refresh-btn" type="button">Refresh</button>
+          <button class="btn primary small" id="save-preset-top" type="button">Save preset</button>
+        </div>
+      </header>
+
+      <section class="hero" id="overview">
+        <div class="hero-copy">
+          <span class="eyebrow">LIGHTING CONSOLE</span>
+          <h1>Your keyboard,<br><span class="grad">in full color.</span></h1>
+          <p>Direct ACPI control for the Acer Aspire Lite AL15G-52. No Windows, no vendor services — just the firmware interface and a clean local dashboard.</p>
+          <div class="hero-meta">
+            <span class="meta-chip"><span class="chip-dot"></span>Zone RGB</span>
+            <span class="meta-chip">ACPI _DSM 0x67</span>
+            <span class="meta-chip" id="hero-effect">Static</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="deck-halo" id="deck-halo" aria-hidden="true"></div>
+          <div class="keyboard-deck" id="keyboard-deck">
+            <div class="deck-status">
+              <span class="led" id="deck-led"></span>
+              <span id="deck-state">LIVE</span>
+              <span class="deck-zone" id="deck-zone">MAIN ZONE</span>
+            </div>
+            <div class="keyboard" id="keyboard" aria-hidden="true"></div>
+            <div class="deck-footer">
+              <span class="deck-brand">AL15G-52</span>
+              <span id="deck-color">#FFFFFF</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid" id="lighting">
+        <article class="card span-7">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">COLOR</span>
+              <h2>Static lighting</h2>
+            </div>
+            <span class="badge" id="color-badge">#FFFFFF</span>
+          </div>
+
+          <div class="color-layout">
+            <div class="color-picker" id="color-picker">
+              <input type="color" id="color-input" value="#ffffff" aria-label="Choose keyboard color">
+              <div class="color-picker-face" id="color-picker-face">
+                <span>Click to pick</span>
+              </div>
+            </div>
+
+            <div class="color-controls">
+              <label class="field" for="hex-input">
+                <span>Hex color</span>
+                <div class="input-wrap">
+                  <span class="hash">#</span>
+                  <input id="hex-input" type="text" value="FFFFFF" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex color">
+                </div>
+              </label>
+
+              <div class="field">
+                <span>Quick swatches</span>
+                <div class="swatches" id="swatches"></div>
+              </div>
+
+              <label class="field" for="zone-select">
+                <span>Zone</span>
+                <select id="zone-select">
+                  <option value="main">Keyboard / main</option>
+                  <option value="mid">Middle zone</option>
+                  <option value="right">Right zone</option>
+                  <option value="bar">Light bar</option>
+                  <option value="logo">Logo LED</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="brightness-block">
+            <div class="brightness-head">
+              <span>Brightness</span>
+              <strong id="brightness-value">3 / 4</strong>
+            </div>
+            <input type="range" id="brightness" min="0" max="4" step="1" value="3" aria-label="Keyboard brightness">
+            <div class="ticks" aria-hidden="true">
+              <span>Off</span><span>Low</span><span>Medium</span><span>High</span><span>Max</span>
+            </div>
+          </div>
+
+          <div class="power-row">
+            <div>
+              <span class="field-label">Backlight power</span>
+              <p id="power-desc">The keyboard backlight is on.</p>
+            </div>
+            <button class="switch on" id="power-toggle" type="button" role="switch" aria-checked="true" aria-label="Toggle keyboard backlight">
+              <span></span>
+            </button>
+          </div>
+        </article>
+
+        <article class="card span-5" id="effects">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">MOTION</span>
+              <h2>Effects</h2>
+            </div>
+            <span class="badge" id="effect-badge">Static</span>
+          </div>
+          <div class="effect-grid" id="effect-grid"></div>
+          <p class="hint">Firmware-driven animation. Pick <strong>Static</strong> to return to your selected color. Effect packets use the same verified ACPI function.</p>
+        </article>
+      </section>
+
+      <section class="grid" id="presets">
+        <article class="card span-7">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">LIBRARY</span>
+              <h2>Presets</h2>
+            </div>
+            <button class="btn ghost small" id="save-preset" type="button">Save current</button>
+          </div>
+          <div class="preset-grid" id="preset-grid"></div>
+        </article>
+
+        <article class="card span-5" id="activity">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">LIVE</span>
+              <h2>Activity</h2>
+            </div>
+            <span class="badge" id="activity-count">0</span>
+          </div>
+          <ul class="activity-list" id="activity-list">
+            <li class="empty">No actions yet. Pick a color to begin.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="card perkey" id="perkey">
+        <div class="perkey-head">
+          <div>
+            <span class="eyebrow">RESEARCH</span>
+            <h2>Per-key lab</h2>
+            <p>An honest look at what this keyboard exposes. Zone RGB works today; per-key output needs a HID interface that is not present on this machine.</p>
+          </div>
+          <span class="badge warn" id="perkey-badge">Checking hardware</span>
+        </div>
+
+        <div class="perkey-grid">
+          <div class="perkey-copy">
+            <h3>Why per-key is not live yet</h3>
+            <p>Acer’s Windows per-key stack talks to HID <code>048D:8910</code> (an ITE 829x controller). Linux currently enumerates only the touchpad on the HID bus, not that keyboard controller. The CLV0001 ACPI path used by this app is zone RGB: it can color the keyboard, light bar and logo, but it does not address individual keys.</p>
+            <ul class="check-list" id="probe-checks">
+              <li><span class="check-icon pending"></span><span>Run the probe to inspect this machine.</span></li>
+            </ul>
+            <div class="perkey-actions">
+              <button class="btn primary" id="probe-button" type="button">Run hardware probe</button>
+              <button class="btn ghost" id="probe-copy" type="button" disabled>Copy diagnostics</button>
+            </div>
+          </div>
+
+          <div class="probe-console">
+            <div class="console-head">
+              <span>probe.json</span>
+              <span id="probe-time">not run</span>
+            </div>
+            <pre id="probe-json">Click “Run hardware probe” to inspect ACPI, kernel module, device permissions and HID enumeration.</pre>
+          </div>
+        </div>
+
+        <div class="callout" id="perkey-note">
+          <span class="callout-icon">i</span>
+          <p><strong>Safety first.</strong> Only ACPI <code>_DSM 0x67</code> is used. Functions <code>0x68–0x6A</code> are deliberately disabled after one of them hard-locked an AL15G-53 during reverse engineering. The probe here is read-only and never calls unknown firmware functions.</p>
+        </div>
+      </section>
+
+      <section class="grid" id="system">
+        <article class="card span-6">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">RUNTIME</span>
+              <h2>System status</h2>
+            </div>
+            <span class="badge" id="sys-badge">Checking</span>
+          </div>
+          <div class="sys-list">
+            <div class="sys-row"><span>CLI</span><strong id="sys-cli">—</strong></div>
+            <div class="sys-row"><span>Kernel module</span><strong id="sys-module">—</strong></div>
+            <div class="sys-row"><span>Device node</span><strong id="sys-device">—</strong></div>
+            <div class="sys-row"><span>ACPI device</span><strong id="sys-acpi">—</strong></div>
+            <div class="sys-row"><span>Kernel</span><strong id="sys-kernel">—</strong></div>
+            <div class="sys-row"><span>App version</span><strong id="sys-version">—</strong></div>
+          </div>
+          <div class="caps" id="sys-caps"></div>
+        </article>
+
+        <article class="card span-6">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">CONTROL PLANE</span>
+              <h2>Local API</h2>
+            </div>
+            <span class="badge">127.0.0.1</span>
+          </div>
+          <p class="hint">The dashboard is a thin layer over <code>alg-rgb</code>. Every action is validated and persisted by the CLI, then applied through the kernel module.</p>
+          <div class="api-list">
+            <div><span class="method get">GET</span><code>/api/status</code></div>
+            <div><span class="method post">POST</span><code>/api/color</code></div>
+            <div><span class="method post">POST</span><code>/api/brightness</code></div>
+            <div><span class="method post">POST</span><code>/api/effect</code></div>
+            <div><span class="method post">POST</span><code>/api/preset</code></div>
+            <div><span class="method get">GET</span><code>/api/probe</code></div>
+          </div>
+          <div class="safety-note">
+            <strong>Verified surface</strong>
+            <p>ACPI <code>_DSM 0x67</code> · UUID <code>93f224e4…afad</code> · 4-byte GRB packet. No ACPI fuzzing, no unknown function calls.</p>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span>Lumen RGB Studio · Local-only dashboard</span>
+        <span>Built for Acer Aspire Lite AL15G-52 · GPL-2.0</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="preset-dialog" class="dialog">
+    <form method="dialog" id="preset-form">
+      <span class="eyebrow">LIBRARY</span>
+      <h2>Save current preset</h2>
+      <p>Store the current color, brightness and effect in this browser.</p>
+      <label class="field" for="preset-name">
+        <span>Preset name</span>
+        <input id="preset-name" type="text" maxlength="32" placeholder="My lighting" autocomplete="off" required>
+      </label>
+      <div class="dialog-actions">
+        <button class="btn ghost" value="cancel" type="button" id="preset-cancel">Cancel</button>
+        <button class="btn primary" value="save" type="submit" id="preset-save">Save preset</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

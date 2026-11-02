@@ -1,0 +1,59 @@
+/* SPDX-License-Identifier: GPL-2.0 */
+.alg-status {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 2px 0;
+}
+
+.alg-status.alg-error {
+  color: #ff8a9b;
+}
+
+.alg-color-grid {
+  spacing: 6px;
+  padding: 4px 0 2px;
+}
+
+.alg-color-row {
+  spacing: 8px;
+}
+
+.alg-color-button {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  transition-duration: 120ms;
+}
+
+.alg-color-button:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.alg-color-button:focus {
+  border-color: #3584e4;
+  box-shadow: 0 0 0 2px rgba(53, 132, 228, 0.35);
+}
+
+.alg-color-button.selected {
+  border-color: #ffffff;
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.45);
+}
+
+.alg-slider-box {
+  spacing: 7px;
+  padding: 3px 0;
+}
+
+.alg-slider-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.alg-slider {
+  width: 190px;
+}

@@ -1,0 +1,15 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0
+# systemd-sleep hook: persist before suspend and re-apply after resume.
+# The kernel module may lose its state across a firmware sleep cycle.
+
+case "$1" in
+    pre)
+        /usr/local/bin/alg-rgb save --system >/dev/null 2>&1 || true
+        ;;
+    post)
+        /usr/local/bin/alg-rgb restore --system >/dev/null 2>&1 || true
+        ;;
+esac
+
+exit 0

@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: GPL-2.0
+[Unit]
+Description=ALG RGB local dashboard
+Documentation=file:///usr/share/doc/alg-rgb/README.md
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/alg-rgb-web --host 127.0.0.1 --port 8722
+Restart=on-failure
+RestartSec=2
+Environment=PYTHONUNBUFFERED=1
+Environment=LC_ALL=C
+
+[Install]
+WantedBy=default.target

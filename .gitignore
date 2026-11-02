@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: GPL-2.0
+
+# Kernel module build artifacts
+*.o
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+*.symvers
+*.order
+.*.cmd
+.module-common.o
+.tmp_versions/
+Module.symvers
+modules.order
+
+# CLI / helper binaries
+cli/alg-rgb
+web/alg-rgb
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Logs and editor files
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local state
+state
+*.tmp.*

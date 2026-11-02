@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Lumen RGB Studio
+GenericName=Keyboard Lighting
+Comment=Control the Acer Aspire Lite AL15G-52 RGB keyboard
+Exec=alg-rgb-web --open
+Icon=lumen-rgb
+Terminal=false
+Categories=Settings;HardwareSettings;
+Keywords=rgb;keyboard;acer;alg;lighting;
+StartupNotify=true

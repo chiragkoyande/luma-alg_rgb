@@ -1,0 +1,8 @@
+{
+  "uuid": "alg-rgb@chiragk.local",
+  "name": "ALG RGB",
+  "description": "Control the Acer Aspire Lite AL15G-52 RGB keyboard from the GNOME top panel.",
+  "shell-version": ["45", "46", "47", "48", "49", "50"],
+  "version": 1,
+  "url": "https://github.com/24kaushik/alg-cli"
+}

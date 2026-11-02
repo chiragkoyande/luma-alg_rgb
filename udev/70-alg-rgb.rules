@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-2.0
+# Acer ALG RGB keyboard (alg_rgb misc device)
+KERNEL=="alg_rgb", GROUP="alg-rgb", MODE="0660", TAG+="uaccess"
+ACTION=="add", KERNEL=="alg_rgb", TAG+="systemd", ENV{SYSTEMD_WANTS}+="alg-rgb-restore.service"

@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: GPL-2.0
+[Unit]
+Description=Restore Acer ALG RGB keyboard state
+Documentation=file:///usr/share/doc/alg-rgb/README.md
+After=systemd-modules-load.service
+Wants=systemd-modules-load.service
+ConditionPathExists=/usr/local/bin/alg-rgb
+
+[Service]
+Type=oneshot
+ExecStartPre=-/sbin/modprobe alg_rgb
+ExecStart=-/usr/local/bin/alg-rgb restore --system
+RemainAfterExit=yes
+TimeoutStartSec=20
+
+[Install]
+WantedBy=multi-user.target
