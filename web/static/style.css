@@ -512,34 +512,63 @@ input:focus-visible {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Keyboard Visualizer Deck                                                   */
+/* Keyboard Visualizer Deck (3D Hardware Perspective)                         */
 /* -------------------------------------------------------------------------- */
 
 .deck-wrapper {
   position: relative;
-  padding: 16px;
+  padding: 24px 28px 28px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
+  perspective: 1200px;
+  overflow: hidden;
+}
+
+.deck-halo {
+  position: absolute;
+  inset: 12% 8%;
+  border-radius: 50%;
+  background: var(--kb-glow, rgba(59, 130, 246, 0.25));
+  filter: blur(64px);
+  opacity: 0.85;
+  transition: background 0.35s ease;
+  pointer-events: none;
 }
 
 .keyboard-deck {
   position: relative;
-  padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-sm);
-  background: #0b0d14;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background:
+    linear-gradient(155deg, rgba(30, 37, 54, 0.94), rgba(11, 14, 22, 0.98) 60%),
+    #0b0d14;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+  transform: perspective(1200px) rotateX(4deg) rotateY(-4deg);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.keyboard-deck:hover {
+  transform: perspective(1200px) rotateX(1.5deg) rotateY(-1.5deg) translateY(-2px);
+  box-shadow:
+    0 36px 85px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .deck-status {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-bottom: 12px;
+  padding-bottom: 14px;
   color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .led {
@@ -547,26 +576,38 @@ input:focus-visible {
   height: 6px;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 6px var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
 }
 
 .deck-zone {
   margin-left: auto;
-  color: var(--text-faint);
+  color: var(--text-muted);
 }
 
 .keyboard {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   --kb-color: #ffffff;
   --kb-dim: rgba(255, 255, 255, 0.12);
-  --kb-glow: rgba(255, 255, 255, 0.18);
+  --kb-glow: rgba(255, 255, 255, 0.2);
 }
 
 .kb-row {
   display: flex;
-  gap: 4px;
+  gap: 5px;
   min-width: 0;
 }
 
@@ -575,32 +616,50 @@ input:focus-visible {
   flex-grow: var(--w, 1);
   flex-basis: 0;
   min-width: 0;
-  height: 29px;
-  padding: 3px 5px;
+  height: 31px;
+  padding: 4px 6px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  background: var(--kb-dim);
-  box-shadow: 0 0 8px var(--kb-glow);
-  color: #cbd5e1;
+  border-radius: 5px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.32)),
+    var(--kb-dim);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 2px 0 rgba(0, 0, 0, 0.6),
+    0 0 11px var(--kb-glow);
+  color: #e2e8f0;
   font-family: var(--font-mono);
   font-size: 9.5px;
   font-weight: 500;
+  line-height: 1;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
+  overflow: hidden;
   user-select: none;
   transition: all 0.2s ease;
 }
 
+.key::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 115%, var(--kb-glow), transparent 68%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 .key.small-label {
   font-size: 8px;
+  letter-spacing: -0.02em;
 }
 
 .deck-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 12px;
+  padding-top: 14px;
   color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: 11px;
