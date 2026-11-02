@@ -21,23 +21,63 @@ const SWATCHES = [
 ];
 
 const EFFECTS = [
-  { id: "none", name: "Static", desc: "Hold one color", icon: "◼" },
-  { id: "random", name: "Random", desc: "Random shifts", icon: "✦" },
-  { id: "flash", name: "Flash", desc: "Strobe pulse", icon: "⚡" },
-  { id: "tempo", name: "Tempo", desc: "Beat sync", icon: "♪" },
-  { id: "dance", name: "Dance", desc: "Moving pattern", icon: "◈" },
-  { id: "wave", name: "Wave", desc: "Sweep across", icon: "≋" },
-  { id: "cycle", name: "Cycle", desc: "Spectrum loop", icon: "◐" },
-  { id: "breath", name: "Breath", desc: "Slow fade", icon: "◒" },
+  {
+    id: "none",
+    name: "Static",
+    desc: "Single solid color",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>`,
+  },
+  {
+    id: "wave",
+    name: "Wave",
+    desc: "Spectrum sweep wave",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/></svg>`,
+  },
+  {
+    id: "cycle",
+    name: "Cycle",
+    desc: "Continuous rainbow loop",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>`,
+  },
+  {
+    id: "breath",
+    name: "Breath",
+    desc: "Slow fading pulse",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`,
+  },
+  {
+    id: "tempo",
+    name: "Tempo",
+    desc: "Rhythmic beat pulse",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+  },
+  {
+    id: "dance",
+    name: "Dance",
+    desc: "Alternate zone patterns",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  },
+  {
+    id: "random",
+    name: "Random",
+    desc: "Shuffling zone colors",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>`,
+  },
+  {
+    id: "flash",
+    name: "Flash",
+    desc: "High-contrast strobe",
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  },
 ];
 
 const STATIC_PRESETS = [
-  { id: "aurora", name: "Aurora", color: "#22d3ee", brightness: 3, effect: "none", zone: "main", tag: "Cool" },
-  { id: "ember", name: "Ember", color: "#ff7a45", brightness: 4, effect: "none", zone: "main", tag: "Warm" },
-  { id: "ice", name: "Ice", color: "#7dd3fc", brightness: 2, effect: "none", zone: "main", tag: "Soft" },
-  { id: "matrix", name: "Matrix", color: "#22c55e", brightness: 3, effect: "none", zone: "main", tag: "Green" },
-  { id: "pulse", name: "Pulse", color: "#f472b6", brightness: 3, effect: "breath", zone: "main", tag: "Motion" },
-  { id: "disco", name: "Disco", color: "#a855f7", brightness: 4, effect: "dance", zone: "main", tag: "Motion" },
+  { id: "aurora", name: "Aurora", color: "#22d3ee", brightness: 3, effect: "wave", zone: "all", tag: "Wave" },
+  { id: "ember", name: "Ember", color: "#ff7a45", brightness: 4, effect: "breath", zone: "all", tag: "Breath" },
+  { id: "matrix", name: "Matrix", color: "#22c55e", brightness: 3, effect: "tempo", zone: "all", tag: "Tempo" },
+  { id: "cyber", name: "Cyberpunk", color: "#a855f7", brightness: 4, effect: "dance", zone: "all", tag: "Dance" },
+  { id: "frost", name: "Frost White", color: "#ffffff", brightness: 3, effect: "none", zone: "all", tag: "Static" },
+  { id: "deep-blue", name: "Deep Cobalt", color: "#2962ff", brightness: 3, effect: "none", zone: "all", tag: "Static" },
 ];
 
 const KEY_ROWS = [
@@ -753,9 +793,10 @@ function renderEffects() {
 
     const icon = document.createElement("span");
     icon.className = "fx-icon";
-    icon.textContent = effect.icon;
+    icon.innerHTML = effect.svg;
 
     const text = document.createElement("span");
+    text.className = "fx-text";
     const name = document.createElement("strong");
     name.textContent = effect.name;
     const desc = document.createElement("small");
