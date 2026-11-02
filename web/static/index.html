@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#090a0f">
+  <meta name="theme-color" content="#06080d">
   <meta name="description" content="Local lighting control for the Acer Aspire Lite AL15G-52 RGB keyboard.">
-  <title>ALG RGB Studio — Keyboard Console</title>
+  <title>Lumen RGB Studio — ALG RGB</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,38 +16,38 @@
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <a class="brand" href="#overview" aria-label="ALG RGB Studio home">
+      <a class="brand" href="#overview" aria-label="Lumen RGB Studio home">
         <span class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="4" width="20" height="16" rx="2"/>
-            <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H14l3 4h-2.4l-3-4h-3.2l-3 4H4.6l3-4H5.5A1.5 1.5 0 0 1 4 14.5v-9Zm2 .5v8h12V6H6Z"/>
+            <path d="M8 8h2v2H8V8Zm3 0h2v2h-2V8Zm3 0h2v2h-2V8ZM8 11h2v2H8v-2Zm3 0h2v2h-2v-2Zm3 0h2v2h-2v-2Z"/>
           </svg>
         </span>
         <span class="brand-text">
-          <strong>ALG RGB</strong>
-          <small>Hardware Studio</small>
+          <strong>Lumen</strong>
+          <small>ALG RGB Studio</small>
         </span>
       </a>
 
       <nav class="nav" aria-label="Sections">
         <a class="nav-link active" href="#overview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4V4Zm9 0h7v4h-7V4ZM4 13h7v7H4v-7Zm9-3h7v10h-7V10Z"/></svg>
           <span>Overview</span>
         </a>
         <a class="nav-link" href="#lighting">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a7 7 0 0 0-4 12.74V18a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 3Zm-2 17h4v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1Z"/></svg>
           <span>Lighting</span>
         </a>
         <a class="nav-link" href="#effects">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l1-8H13Z"/></svg>
           <span>Effects</span>
         </a>
         <a class="nav-link" href="#perkey">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4V4Zm2 3v2h3V7H6Zm5 0v2h2V7h-2Zm4 0v2h3V7h-3ZM6 11v2h2v-2H6Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2ZM6 15v2h5v-2H6Zm7 0v2h5v-2h-5Z"/></svg>
           <span>Per-key Lab</span>
         </a>
         <a class="nav-link" href="#system">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm9 5v-2l-2.2-.7a7 7 0 0 0-.7-1.7l1.1-2-1.4-1.4-2 1.1a7 7 0 0 0-1.7-.7L13 3h-2l-.7 2.2a7 7 0 0 0-1.7.7l-2-1.1-1.4 1.4 1.1 2a7 7 0 0 0-.7 1.7L3 11v2l2.2.7c.17.6.4 1.17.7 1.7l-1.1 2 1.4 1.4 2-1.1c.53.3 1.1.53 1.7.7L11 21h2l.7-2.2a7 7 0 0 0 1.7-.7l2 1.1 1.4-1.4-1.1-2c.3-.53.53-1.1.7-1.7L21 13Z"/></svg>
           <span>System</span>
         </a>
       </nav>
@@ -62,14 +62,14 @@
 
       <div class="sidebar-footer">
         <span>v1.0.0</span>
-        <span>ACPI Driver</span>
+        <span>Local control</span>
       </div>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div class="breadcrumb">
-          <span>Hardware</span>
+          <span>Workspace</span>
           <span class="sep">/</span>
           <strong>Keyboard</strong>
         </div>
@@ -80,43 +80,29 @@
         </div>
       </header>
 
-      <section class="overview-header" id="overview">
-        <div class="overview-meta-bar">
-          <div class="overview-title-group">
-            <div class="device-badge">
-              <span class="device-dot"></span>
-              <span>AL15G-52 CONTROLLER</span>
-            </div>
-            <h1>Keyboard Studio</h1>
-            <p>Direct ACPI hardware lighting control via Acer CLV0001 interface. Real-time zone streaming and firmware effects.</p>
-          </div>
-          <div class="overview-stats">
-            <div class="stat-card">
-              <span class="stat-label">INTERFACE</span>
-              <span class="stat-value">_DSM 0x67</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">COLOR ORDER</span>
-              <span class="stat-value">GRB Native</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">ACTIVE EFFECT</span>
-              <span class="stat-value" id="hero-effect">Static</span>
-            </div>
+      <section class="hero" id="overview">
+        <div class="hero-copy">
+          <span class="eyebrow">LIGHTING CONSOLE</span>
+          <h1>Your keyboard,<br><span class="grad">in full color.</span></h1>
+          <p>Direct ACPI control for the Acer Aspire Lite AL15G-52. No Windows, no vendor services — just the firmware interface and a clean local dashboard.</p>
+          <div class="hero-meta">
+            <span class="meta-chip"><span class="chip-dot"></span>Zone RGB</span>
+            <span class="meta-chip">ACPI _DSM 0x67</span>
+            <span class="meta-chip" id="hero-effect">Static</span>
           </div>
         </div>
 
-        <div class="deck-wrapper">
+        <div class="hero-visual">
           <div class="deck-halo" id="deck-halo" aria-hidden="true"></div>
           <div class="keyboard-deck" id="keyboard-deck">
             <div class="deck-status">
               <span class="led" id="deck-led"></span>
               <span id="deck-state">LIVE</span>
-              <span class="deck-zone" id="deck-zone">ALL ZONES</span>
+              <span class="deck-zone" id="deck-zone">MAIN ZONE</span>
             </div>
             <div class="keyboard" id="keyboard" aria-hidden="true"></div>
             <div class="deck-footer">
-              <span class="deck-brand">Acer Aspire Lite AL15G-52</span>
+              <span class="deck-brand">AL15G-52</span>
               <span id="deck-color">#FFFFFF</span>
             </div>
           </div>
@@ -262,8 +248,8 @@
         </div>
 
         <div class="callout" id="perkey-note">
-          <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          <p><strong>Safety Protocol.</strong> Only ACPI <code>_DSM 0x67</code> is queried. Functions <code>0x68–0x6A</code> are strictly restricted. Diagnostics are read-only and never issue arbitrary ACPI writes.</p>
+          <span class="callout-icon">i</span>
+          <p><strong>Safety first.</strong> Only ACPI <code>_DSM 0x67</code> is used. Functions <code>0x68–0x6A</code> are deliberately disabled after one of them hard-locked an AL15G-53 during reverse engineering. The probe here is read-only and never calls unknown firmware functions.</p>
         </div>
       </section>
 
