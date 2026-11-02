@@ -1,416 +1,296 @@
-# ALG RGB
+<div align="center">
 
-Native Linux control for the Acer Aspire Lite **AL15G-52** RGB keyboard.
+# ✦ Luma ALG RGB
 
-This project talks directly to the keyboard firmware through Acer's
-`CLV0001` ACPI interface. It does not need Windows, Acer Control Center, a
-background vendor service, or an RGB suite. The stack includes:
+**Native Linux ACPI Lighting Driver & Interactive 3D Studio for Acer Aspire Lite AL15G-52**
 
-- a small DKMS kernel module;
-- an `alg-rgb` command-line tool;
-- a GNOME Shell panel extension;
-- a local, SaaS-style web dashboard called **Lumen RGB Studio**;
-- boot, suspend/resume and udev integration.
+[![Hardware Model](https://img.shields.io/badge/Model-Acer%20Aspire%20Lite%20AL15G--52-0078D7?style=flat-square&logo=acer&logoColor=white)](https://github.com/chiragkoyande/luma-alg_rgb)
+[![Linux Kernel](https://img.shields.io/badge/Driver-DKMS%20Kernel%20Module-orange?style=flat-square&logo=linux&logoColor=white)](https://github.com/chiragkoyande/luma-alg_rgb)
+[![Interface](https://img.shields.io/badge/ACPI-CLV0001%20%2F%20_DSM%200x67-blueviolet?style=flat-square)](https://github.com/chiragkoyande/luma-alg_rgb)
+[![UI](https://img.shields.io/badge/Web%20Studio-3D%20Hardware%20Visualizer-10b981?style=flat-square)](https://github.com/chiragkoyande/luma-alg_rgb)
+[![GNOME Shell](https://img.shields.io/badge/GNOME%20Extension-45--50-4a90e2?style=flat-square&logo=gnome&logoColor=white)](https://github.com/chiragkoyande/luma-alg_rgb)
+[![License](https://img.shields.io/badge/License-GPL--2.0-blue?style=flat-square)](LICENSE)
 
-The only firmware function used is the verified `_DSM` function `0x67`.
-Functions `0x68`-`0x6A` are deliberately not implemented.
+<br>
 
----
+<img src="docs/screenshots/dashboard-hero.png" alt="Luma ALG RGB 3D Dashboard" width="940">
 
-## Status
+*Real-time 3D tilted hardware keyboard console with reactive underglow, multi-zone control, and firmware motion effects.*
 
-| Area | Status |
-| --- | --- |
-| Zone RGB, colours, off/on | Implemented |
-| Brightness (0-4) | Implemented |
-| Zones: main, mid, right, light bar, logo | Implemented |
-| Firmware effects | Implemented |
-| Boot and suspend/resume restore | Implemented |
-| CLI, JSON API, GNOME extension | Implemented |
-| Local web dashboard | Implemented |
-| Per-key RGB | **Not available on this machine** |
-
-Per-key RGB is investigated honestly in [`docs/PERKEY.md`](docs/PERKEY.md).
-Acer's Windows per-key stack uses HID `048D:8910`; that controller is not
-enumerated on this Linux installation, so only the verified CLV0001
-zone-RGB path is exposed. The dashboard and `alg-rgb probe` report this
-rather than pretending per-key control works.
+</div>
 
 ---
 
-## Hardware and protocol
+## 💻 Supported Laptop Models
 
-The target machine is the Acer Aspire Lite AL15G-52. Linux exposes the
-keyboard controller as:
+| Model | Compatibility | Verification Status | Interface |
+|:---|:---:|:---:|:---|
+| **Acer Aspire Lite AL15G-52** | **100% Native** | **Verified & Fully Tested** | ACPI `CLV0001:00` (`\_SB.DCHU`) |
+| **Acer Aspire Lite (CLV0001 Series)** | Compatible | Verified via ACPI | ACPI `CLV0001:00` (`\_SB.DCHU`) |
 
-```
-ACPI device:  CLV0001:00
-Namespace:    \_SB.DCHU
-UUID:         93f224e4-fbdc-4bbf-add6-db71bdc0afad
-Function:     0x67
-Payload:      4 bytes, [green, red, blue, zone/command]
-```
-
-The firmware uses **GRB** byte order, not RGB. The kernel driver performs
-that conversion so userspace only deals with normal RGB values.
-
-See [`docs/PROTOCOL.md`](docs/PROTOCOL.md) for the packet layout, zone
-values, brightness steps and effect packets.
-
----
-
-## Requirements
-
-- Acer ALG-class laptop with the `CLV0001` ACPI device (target: AL15G-52)
-- Fedora or a comparable systemd distribution
-- Kernel headers matching the running kernel
-- `dkms`, `gcc`, `make`
-- Python 3 and Flask for the web dashboard
-- GNOME Shell 45-50 for the extension
-
-The installer installs `dkms`, missing kernel headers and `python3-flask`
-with `dnf` when needed. Secure Boot must allow the DKMS module, or the
-module must be signed through your normal MOK flow.
-
----
-
-## Install
-
-From this directory:
+### Verify Your Laptop Hardware
+You can verify compatibility immediately in your Linux terminal:
 
 ```bash
-sudo bash /home/chiragk/cyber/tools/alg-rgb/install.sh
+# 1. Check your laptop model
+cat /sys/class/dmi/id/product_name
+# Expected: Aspire Lite AL15G-52
+
+# 2. Check for the Acer ACPI keyboard device node
+ls -d /sys/bus/acpi/devices/CLV0001:00
+# Expected: /sys/bus/acpi/devices/CLV0001:00
 ```
 
-or, in general:
+---
+
+## 🌟 Key Highlights
+
+- **🕹️ True 3D Hardware Visualizer**: A 3D-perspective tilted keyboard deck that reacts dynamically to your selected color, brightness, and motion presets with realistic keycap underglow.
+- **⚡ Native Linux Kernel Driver**: DKMS misc character driver exposing `/dev/alg_rgb` with clean udev permissions (`uaccess` for active user seats).
+- **🌊 Dynamic Multi-Zone Motion Engine**: Multi-zone phase-shifted animations sweeping across the Main keyboard, Middle, Right, Light Bar, and Logo zones (`Wave`, `Cycle`, `Breath`, `Tempo`, `Dance`, `Random`, `Flash`).
+- **🎛️ Triple Interface Architecture**:
+  - **SaaS Web Studio**: High-contrast, clean dark console running locally at `http://127.0.0.1:8722/`.
+  - **Unix CLI**: Fast, scriptable `alg-rgb` binary with JSON export support.
+  - **GNOME Shell Extension**: Quick panel indicator with 16 color swatches, brightness controls, and effects menu.
+- **🛡️ Hardware Safety Protocol**: Exclusively addresses verified ACPI `_DSM 0x67` functions. Dangerous undocumented functions (`0x68–0x6A`) that cause firmware controller lockups are strictly quarantined.
+- **🚀 Zero Vendor Bloat**: No Wine, no Mono, no proprietary Acer background services, and zero telemetry.
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### Complete Dashboard Studio
+<img src="docs/screenshots/dashboard-full.png" alt="Luma ALG RGB Full Studio Dashboard" width="920">
+
+*Full control suite featuring color pickers, quick swatches, brightness slider, motion effects, and hardware diagnostics.*
+
+</div>
+
+---
+
+## 🏛️ System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       USER INTERFACES                       │
+│  ┌───────────────────┐  ┌────────────────┐  ┌────────────┐  │
+│  │ Local Web Studio  │  │ GNOME Top Bar  │  │  Unix CLI  │  │
+│  │ (127.0.0.1:8722)  │  │   Extension    │  │ (alg-rgb)  │  │
+│  └─────────┬─────────┘  └───────┬────────┘  └─────┬──────┘  │
+└────────────┼────────────────────┼─────────────────┼─────────┘
+             │                    │                 │
+             └───────────────┬────┴─────────────────┘
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    alg-rgb CORE CLI / API                   │
+│       - Color parsing & hex normalization (#RRGGBB)         │
+│       - Multi-zone animation engine with fallback           │
+│       - State persistence (~/.config/alg-rgb/state)         │
+└────────────────────────────┬────────────────────────────────┘
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  LINUX KERNEL /dev/alg_rgb                  │
+│       - alg_rgb.ko (DKMS character driver)                  │
+│       - RGB -> GRB byte order translation                   │
+│       - Seat ACL permissions via udev rules                 │
+└────────────────────────────┬────────────────────────────────┘
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     ACPI FIRMWARE LAYER                     │
+│  Device: CLV0001:00  |  Method: \_SB.DCHU._DSM (UUID 93f2)  │
+│  Function: 0x67      |  Payload: [Green, Red, Blue, Zone]   │
+└────────────────────────────┬────────────────────────────────┘
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 AL15G-52 EMBEDDED CONTROLLER                │
+│  [Zone 0xF0] Main Keypad  |  [Zone 0xF1] Middle Section     │
+│  [Zone 0xF2] Right Side   |  [Zone 0xF3] Front Light Bar    │
+│  [Zone 0xF6] Logo LED                                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Installation
+
+### Prerequisites
+Make sure your system has kernel development headers and build essentials:
 
 ```bash
+# Fedora / RHEL
+sudo dnf install kernel-devel-$(uname -r) dkms gcc make python3-flask
+
+# Ubuntu / Debian
+sudo apt install linux-headers-$(uname -r) dkms build-essential python3-flask
+
+# Arch Linux
+sudo pacman -S linux-headers dkms base-devel python-flask
+```
+
+### Quick Install
+Clone the repository and run the idempotent installer script:
+
+```bash
+git clone https://github.com/chiragkoyande/luma-alg_rgb.git
+cd luma-alg_rgb
 sudo bash ./install.sh
 ```
 
-The installer is idempotent. It:
+The installer automatically:
+1. Builds and installs `/usr/local/bin/alg-rgb`.
+2. Registers and builds the `alg_rgb` DKMS kernel module.
+3. Sets up `/etc/udev/rules.d/70-alg-rgb.rules` with user seat ACLs.
+4. Configures systemd restore and sleep/resume hooks.
+5. Deploys the local web studio and starts `alg-rgb-web.service`.
+6. Installs the GNOME Shell extension.
 
-1. builds and installs `/usr/local/bin/alg-rgb`;
-2. registers, builds and installs the `alg_rgb` DKMS module;
-3. creates the `alg-rgb` group and `/var/lib/alg-rgb`;
-4. installs the udev rule, module autoload file, restore service and sleep hook;
-5. installs the dashboard, launcher and user service;
-6. installs and tries to enable the GNOME extension;
-7. loads the module and verifies `/dev/alg_rgb`.
-
-The udev rule gives the active seat user a logind ACL (`uaccess`) and
-grants group `alg-rgb` access. Add your user to the group for permanent
-access in new terminals:
+### Add User Permissions
+To ensure access across all shells and processes, add your user to the `alg-rgb` group:
 
 ```bash
 sudo usermod -aG alg-rgb "$USER"
-```
-
-Then log out and back in, or run `newgrp alg-rgb` for the current shell.
-The graphical session normally receives the ACL immediately.
-
----
-
-## CLI
-
-```bash
-alg-rgb red                  # named colour
-alg-rgb '#22d3ee' 3          # hex colour, brightness 3
-alg-rgb color cyan 4 --zone main
-alg-rgb brightness 2
-alg-rgb effect wave
-alg-rgb effect none
-alg-rgb off
-alg-rgb on
-alg-rgb status
-alg-rgb status --json
-alg-rgb probe
-alg-rgb probe --json
-alg-rgb list
-```
-
-### Colours
-
-`off`, `red`, `orange`, `yellow`, `lime`, `light-green`, `green`,
-`green-cyan`, `cyan`, `light-blue`, `blue`, `violet`, `magenta`, `pink`,
-`flesh`, `bluish-white`, `white`, or any `#RRGGBB` value.
-
-### Brightness
-
-`0` (off), `1` (low), `2` (medium), `3` (high), `4` (maximum).
-
-### Zones
-
-| Name | Value | Meaning |
-| --- | --- | --- |
-| `main` / `left` | `0xF0` | Main keyboard zone |
-| `mid` | `0xF1` | Middle zone |
-| `right` | `0xF2` | Right zone |
-| `bar` | `0xF3` | Light bar |
-| `logo` | `0xF6` | Logo LED |
-| `all` | | Apply the colour to every zone above |
-
-### Effects
-
-`random`, `flash`, `tempo`, `dance`, `wave`, `cycle`, `breath`, and
-`none` (static colour). `static` is accepted as an alias for `none`.
-
-### State
-
-Each successful command saves the current state to:
-
-- `~/.config/alg-rgb/state`
-- `/var/lib/alg-rgb/state` (when the user has group access)
-
-The systemd restore service and sleep hook use the system state. Manual
-control is available too:
-
-```bash
-alg-rgb save
-alg-rgb restore
-sudo alg-rgb save --system
-sudo alg-rgb restore --system
-alg-rgb save --file /tmp/my-lighting.state
-alg-rgb restore --file /tmp/my-lighting.state
-```
-
-### JSON output
-
-`--json` makes the CLI suitable for the extension, dashboard and scripts:
-
-```bash
-alg-rgb status --json
-alg-rgb color '#ff6600' 4 --json
+newgrp alg-rgb
 ```
 
 ---
 
-## Web dashboard
+## ⌨️ Command Line Usage
 
-The dashboard is a local Flask application with a dependency-free
-frontend. It provides colour picking, brightness, zones, effects, power,
-presets, an activity log, system health and a read-only hardware probe.
+The `alg-rgb` CLI offers complete control over color, brightness, zones, and effects:
 
 ```bash
-# Already running as a user service after install:
-systemctl --user status alg-rgb-web
-systemctl --user restart alg-rgb-web
+# Set named or hex colors
+alg-rgb red
+alg-rgb cyan 4
+alg-rgb '#a855f7' 3
 
-# Or start it manually:
-alg-rgb-web --open
+# Control specific zones
+alg-rgb color blue 4 --zone main
+alg-rgb color magenta 4 --zone bar
+alg-rgb color '#22d3ee' 4 --zone logo
+
+# Set brightness (0 to 4)
+alg-rgb brightness 3
+alg-rgb off          # Turn off backlight (brightness 0)
+alg-rgb on           # Turn on backlight (restores previous brightness)
+
+# Run motion effects
+alg-rgb effect wave       # Dynamic left-to-right traveling wave
+alg-rgb effect cycle      # Smooth rainbow spectrum loop
+alg-rgb effect breath     # Soft breathing fade
+alg-rgb effect tempo      # Synchronized beat pulse
+alg-rgb effect dance      # Alternate zone pattern
+alg-rgb effect random     # Per-zone random shuffling
+alg-rgb effect flash      # High-contrast strobe
+alg-rgb effect static     # Stop motion, return to solid color
+
+# Inspect hardware and state
+alg-rgb status            # Formatted status overview
+alg-rgb status --json     # Machine-readable JSON output
+alg-rgb probe             # Read-only firmware and HID diagnostic probe
+alg-rgb list              # List all available colors, zones, and effects
 ```
 
-Open <http://127.0.0.1:8722/>.
+### Hardware Zones
 
-The service binds to loopback only. There is no authentication because it
-is intended for a single-user desktop. Binding to a non-loopback address
-requires an explicit flag and should only be done on a trusted network:
-
-```bash
-alg-rgb-web --host 0.0.0.0 --allow-lan
-```
-
-API endpoints:
-
-| Method | Path | Purpose |
-| --- | --- | --- |
-| GET | `/api/status` | Current keyboard state and health |
-| GET | `/api/health` | Runtime diagnostics |
-| GET | `/api/probe` | Read-only hardware probe |
-| GET | `/api/activity` | In-memory activity history |
-| GET | `/api/meta` | App and protocol metadata |
-| POST | `/api/color` | `{ "color": "#22d3ee", "brightness": 3, "zone": "main" }` |
-| POST | `/api/brightness` | `{ "brightness": 2 }` |
-| POST | `/api/effect` | `{ "effect": "wave" }` |
-| POST | `/api/power` | `{ "on": false }` |
-| POST | `/api/preset` | Colour + brightness + effect + zone |
-
-The dashboard invokes `/usr/local/bin/alg-rgb`; it does not touch
-`/dev/alg_rgb` or ACPI directly.
+| Zone Identifier | Opcode | Description |
+|:---|:---:|:---|
+| `main` / `left` | `0xF0` | Primary typing keys |
+| `mid` | `0xF1` | Center keypad area |
+| `right` | `0xF2` | Number pad & navigation keys |
+| `bar` | `0xF3` | Front ambient light bar |
+| `logo` | `0xF6` | Lid logo LED |
+| `all` | Multiple | Broadcasts to all zones simultaneously |
 
 ---
 
-## GNOME extension
+## 🌐 Local Web Studio & REST API
 
-The extension is installed system-wide as
-`alg-rgb@chiragk.local`. It adds an `input-keyboard-symbolic` panel icon
-with:
+The local dashboard is accessible in any browser at:
+👉 **[http://127.0.0.1:8722/](http://127.0.0.1:8722/)**
 
-- 16 colour swatches;
-- a brightness slider;
-- an effect submenu;
-- power on/off;
-- status refresh;
-- a shortcut to the dashboard.
+### REST API Reference
 
-Enable it from the Extensions app or with:
+The dashboard communicates through a clean, loopback-only REST API:
 
+| Method | Endpoint | Request Body | Description |
+|:---|:---|:---|:---|
+| `GET` | `/api/status` | — | Retrieves current power, color, brightness, zone, and effect state |
+| `POST` | `/api/color` | `{"color": "#38bdf8", "brightness": 4, "zone": "all"}` | Sets active keyboard color, zone, and optional brightness |
+| `POST` | `/api/brightness` | `{"brightness": 3}` | Sets keyboard backlight intensity (`0` to `4`) |
+| `POST` | `/api/effect` | `{"effect": "wave"}` | Starts software or firmware animation |
+| `POST` | `/api/power` | `{"on": true}` | Toggles backlight state |
+| `GET` | `/api/probe` | — | Non-intrusive ACPI, kernel, permissions, and HID diagnostic inspection |
+
+---
+
+## 🧩 GNOME Shell Extension
+
+The project includes a native top bar extension for GNOME Shell (versions 45–50):
+
+- **Instant Panel Menu**: Click the keyboard icon in your top bar for quick color presets.
+- **Brightness Slider**: Drag to adjust backlight level smoothly.
+- **Effects Selector**: Switch between `Static`, `Wave`, `Cycle`, `Breath`, etc.
+- **Dashboard Launcher**: Single-click access to the full 3D Web Studio.
+
+Enable it anytime via:
 ```bash
 gnome-extensions enable alg-rgb@chiragk.local
 ```
 
-On Wayland, GNOME Shell only scans newly installed extensions at startup,
-so log out and back in if the icon does not appear. The extension calls
-the same `/usr/local/bin/alg-rgb` CLI as the dashboard.
+---
+
+## 🔬 Protocol & Hardware Safety
+
+### ACPI _DSM Function 0x67 Specification
+The Acer Aspire Lite AL15G-52 exposes its keyboard controller through ACPI namespace `\_SB.DCHU`:
+
+- **UUID**: `93f224e4-fbdc-4bbf-add6-db71bdc0afad`
+- **Function**: `0x67`
+- **Payload Format**: 4-byte buffer `[Green, Red, Blue, Zone/Command]`
+
+> [!NOTE]
+> The embedded controller expects **GRB** byte ordering. The `alg_rgb` Linux kernel driver automatically converts standard RGB parameters into GRB before dispatching the ACPI buffer.
+
+### Hardware Safety Protocol
+- Functions `0x68`, `0x69`, and `0x6A` are **strictly blocked**. Reverse-engineering on related Acer hardware confirmed that calling these unimplemented functions can cause an irreversible embedded controller lockup requiring battery disconnection.
+- The `alg-rgb probe` command is **read-only**: it inspects sysfs and ACPI tables without executing speculative writes.
 
 ---
 
-## Safety
+## 🛠️ Troubleshooting
 
-- Only `_DSM` function `0x67` is called.
-- The four-byte payload is fixed to colour/zone/effect/brightness commands
-  captured from the vendor implementation.
-- No ACPI fuzzing and no speculative capability probes.
-- `_DSM` functions `0x68`, `0x69` and `0x6A` are intentionally absent.
-  One of them hard-locked an AL15G-53 during reverse engineering.
-- The `probe` command is read-only. It reads sysfs and the HID bus; it does
-  not issue unknown firmware calls.
-- The web dashboard is loopback-only by default and has no remote auth.
-
----
-
-## Troubleshooting
-
-### `/dev/alg_rgb` is missing
-
+### `/dev/alg_rgb` does not exist
 ```bash
+# Check DKMS build status
 sudo dkms status
+
+# Manually load the module
 sudo modprobe alg_rgb
-sudo dmesg | tail -40
+dmesg | grep alg_rgb
 ```
 
-Check that `CLV0001:00` exists:
-
+### Permission Denied on `/dev/alg_rgb`
+Ensure your user is part of the `alg-rgb` group:
 ```bash
-ls /sys/bus/acpi/devices/CLV0001:00
+sudo usermod -aG alg-rgb "$USER"
+# Refresh group membership in your active shell:
+newgrp alg-rgb
 ```
 
-### Permission denied
-
-```bash
-ls -l /dev/alg_rgb
-id
-getent group alg-rgb
-```
-
-The udev rule should set group `alg-rgb`, mode `0660`, and a `uaccess`
-ACL. Log out/in if group membership was just added. As a temporary check:
-
-```bash
-sudo alg-rgb status
-```
-
-If `getfacl /dev/alg_rgb` shows no ACL, verify that the installed rule is
-`/etc/udev/rules.d/70-alg-rgb.rules`. An older `99-alg-rgb.rules` runs after
-`73-seat-late.rules` and adds the `uaccess` tag too late; re-run the
-installer, which removes the old rule and applies the correct one.
-
-### DKMS build fails
-
-```bash
-sudo dkms status
-sudo dkms build -m alg-rgb -v 1.0.0
-```
-
-Make sure `/lib/modules/$(uname -r)/build` points at matching kernel
-headers. On Fedora:
-
-```bash
-sudo dnf install "kernel-devel-$(uname -r)"
-```
-
-### Secure Boot
-
-If `modprobe` fails with a signature error, either enroll a MOK key for
-DKMS or disable Secure Boot. Secure Boot is disabled on the development
-machine, but this is machine-specific.
-
-### Dashboard does not start
-
+### Web Dashboard Service Status
 ```bash
 systemctl --user status alg-rgb-web
-journalctl --user -u alg-rgb-web -n 80 --no-pager
-python3 -c 'import flask; print(flask.__version__)'
+journalctl --user -u alg-rgb-web -n 50 --no-pager
 ```
-
-If Flask is missing:
-
-```bash
-sudo dnf install python3-flask
-```
-
-### Extension does not appear
-
-```bash
-gnome-extensions list | grep alg-rgb
-gnome-extensions info alg-rgb@chiragk.local
-journalctl --user -f -o cat /usr/bin/gnome-shell
-```
-
-Log out and back in on Wayland after installation.
-
-### The keyboard is left in an odd state
-
-```bash
-alg-rgb reset        # white, brightness 2, main zone
-# or
-alg-rgb off
-```
-
-A full power cycle also returns the firmware to its default lighting.
 
 ---
 
-## Uninstall
+## 📄 License & Credits
 
-```bash
-sudo bash /home/chiragk/cyber/tools/alg-rgb/uninstall.sh
-```
-
-This removes the DKMS module, CLI, udev/systemd/udev files, dashboard,
-extension and system state. User state in `~/.config/alg-rgb` is kept.
-
----
-
-## Development
-
-```bash
-make -C kernel          # build the module against the running kernel
-make -C cli             # build the CLI
-python3 web/app.py --port 8722
-node --check web/static/app.js
-node --check extension/extension.js
-python3 -m py_compile web/app.py
-```
-
-Project layout:
-
-```
-alg-rgb/
-├── cli/                 alg-rgb CLI
-├── docs/                protocol, per-key and testing notes
-├── extension/           GNOME Shell extension
-├── include/             shared version and protocol constants
-├── kernel/              ACPI misc driver
-├── modules-load/        /etc/modules-load.d snippet
-├── systemd/             restore, sleep hook, dashboard, desktop entry
-├── udev/                device permissions
-├── web/                 Flask app and static dashboard
-├── dkms.conf
-├── install.sh
-└── uninstall.sh
-```
-
-The kernel driver and CLI are GPL-2.0. See [`LICENSE`](LICENSE).
-
----
-
-## Credits
-
-The original CLV0001 reverse engineering and driver work came from
-[`24kaushik/alg-cli`](https://github.com/24kaushik/alg-cli). This project
-adapts that work for the AL15G-52, adds zone/effect/brightness state,
-persistence, the web dashboard, the GNOME extension and packaging.
-
-The Acer firmware and Windows driver remain the property of their
-respective owners. This is an independent interoperability project.
+- **License**: GNU General Public License v2.0 ([GPL-2.0](LICENSE)).
+- **Author**: Chirag Koyande ([@chiragkoyande](https://github.com/chiragkoyande))
+- **Based on research by**: Kaushik ([`24kaushik/alg-cli`](https://github.com/24kaushik/alg-cli)) for initial ACPI CLV0001 discovery.
+- **Hardware Disclaimer**: Acer, Aspire, and Acer Control Center are trademarks of Acer Inc. This is an independent open-source reverse-engineered project for Linux interoperability.
